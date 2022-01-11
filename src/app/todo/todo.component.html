@@ -1,0 +1,18 @@
+<div class="input-container" [formGroup]="toDoGroup">
+    <input type="text" class="input-text" formControlName="toDoTitle">
+    <button (click)="addToDo(toDoGroup.controls['toDoTitle'].value)" class="todo-btn">
+        <mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon>    
+        <span class="add-item-text">ADD ITEM</span>
+    
+    </button>
+    
+</div>
+<div class="todo-container">
+    <div class="todo" *ngFor="let todo of (toDoItems$ | async)?.toDoList; let i = index">
+        <div class="todo-name">
+            <input type="checkbox" class="checkbox-item" [checked]="todo.complete" (change)="doneChange(i)" >
+            <span>{{todo.name}}</span>
+        </div>
+        <span class="todo-date">{{todo.createdDate | date: "dd/MM/yy"}}</span>
+    </div>
+</div>
