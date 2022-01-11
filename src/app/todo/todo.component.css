@@ -40,6 +40,9 @@ button {
 .todo-date {
   padding: 0px 20px 0px 20px;
 }
+.todo-date {
+  color: lightgray;
+}
 .todo-btn {
   display: flex;
   align-items: center;
