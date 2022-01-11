@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ToDoActions } from '../store/actions/todo.action';
-import { IToDo, IToDoListItem } from '../store/reducers/todo.reducer';
+import { IToDo } from '../store/reducers/todo.reducer';
 import { ToDoSelectors } from '../store/selectors/todo.selectors';
 
 @Component({
@@ -11,21 +11,23 @@ import { ToDoSelectors } from '../store/selectors/todo.selectors';
   templateUrl: './todo.component.html',
   styleUrls: ['./todo.component.css']
 })
-export class TodoComponent implements OnInit {
+export class TodoComponent {
   toDoItems$: Observable<IToDo>; 
   toDoGroup: FormGroup = new FormGroup({
     toDoTitle: new FormControl('')
   });
+
   constructor(private $store: Store) { 
-   this.toDoItems$ = this.$store.select(ToDoSelectors.state);
+    this.toDoItems$ = this.$store.select(ToDoSelectors.state);
   }
-  ngOnInit(): void {
-    this.$store.select(ToDoSelectors.state).subscribe(data => console.log(data))
-  } 
-  addToDo(title: string){
-    this.$store.dispatch(ToDoActions.createToDo({name: title }))
+
+  addToDo() {
+    if(this.toDoGroup.value.toDoTitle) {
+      this.$store.dispatch(ToDoActions.createToDo({ name: this.toDoGroup.value.toDoTitle }))
+    }
   }
-  doneChange(id: number){
-   this.$store.dispatch(ToDoActions.completeChange({id: id}))
+
+  doneChange(id: string) {
+    this.$store.dispatch(ToDoActions.completeChange({id}))
   }
 }
